@@ -17,10 +17,21 @@ int main() {
         face_to_west();
     }
     else {
-        put_beeper();
-        jump_right();
-        jump_left();
-        face_to_west();
+        face_to_north();
+        sstep();
+        if (beepers_present()) {
+            pick_beepers();
+            face_to_south();
+            sstep();
+            face_to_west();
+        }
+        else {
+                face_to_south();
+                sstep();
+                put_beeper();
+                jump_right();
+                jump_left();
+                face_to_west();
     }
 
     turn_off();
