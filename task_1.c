@@ -29,6 +29,9 @@ int main() {
                 face_to_south();
                 sstep();
                 put_beeper();
+                while (front_is_clear()) {
+                    step();
+                }
                 jump_right();
                 face_to_south();
                 while (front_is_clear()) {
