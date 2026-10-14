@@ -5,104 +5,117 @@ void face_to_north();
 void face_to_south();
 void face_to_east();
 void face_to_west();
-int jump_right();
-int jump_left();
+void jump_right();
+void jump_left();
+void sstep();
 
 int main() {
-	turn_on("task_1.kw");
+	turn_on("`task_1.kw");
     
-    put_beeper();
-    jump_right();
-    jump_left();
-    face_to_west();
+    if (beepers_present()) {
+        pick_beeper();
+        face_to_west();
+    }
+    else {
+        put_beeper();
+        jump_right();
+        jump_left();
+        face_to_west();
+    }
 
     turn_off();
     return 0;
 }
 
-int jump_left() {
+void sstep() {
+    if (front_is_clear()) {
+        step();
+    }
+}
+
+void jump_left() {
     while (true) {
         face_to_north();
-        step();
+        sstep();
         if (beepers_present()) {
                 pick_beeper();
                 break;
         }   
         while (left_is_blocked() && front_is_clear()) {
-                step();
+                sstep();
                 if (beepers_present()) {
                         pick_beeper();
-                        return 0;
+                        return;
                 }             
         }
         face_to_west();
-        step();
+        sstep();
         if (beepers_present()) {
                 pick_beeper();
                 break;
         } 
         while (left_is_blocked() && front_is_clear()) {
-                step();
+                sstep();
                 if (beepers_present()) {
                         pick_beeper();
-                        return 0;
+                        return;
                 }
         } 
         face_to_south();
-        step();
+        sstep();
         if (beepers_present()) {
                 pick_beeper();
                 break;
         }
         while (left_is_blocked() && front_is_clear()) {
-                step();
+                sstep();
                 if (beepers_present()) {
                         pick_beeper();
-                        return 0;
+                        return;
                 }    
         }
     }
 }
 
-int jump_right() {
+void jump_right() {
     while (true) {
         face_to_north();
-        step();
+        sstep();
         if (beepers_present()) {
                  pick_beeper();
                  break;
         }
         while (right_is_blocked() && front_is_clear()) {
-                step();
+                sstep();
                 if (beepers_present()) {
                         pick_beeper();
-                        return 0;
+                        return;
                 }
         }
         face_to_east();
-        step();
+        sstep();
         if (beepers_present()) {
                 pick_beeper();
                 break;
         }
         while (right_is_blocked() && front_is_clear()) {
-                step();
+                sstep();
                 if (beepers_present()) {
                         pick_beeper();
-                        return 0;
+                        return;
                 }
         }
         face_to_south();
-        step();
+        sstep();
         if (beepers_present()) {
                 pick_beeper();
                 break;
         }
         while (right_is_blocked() && front_is_clear()) {
-                step();
+                sstep();
                 if (beepers_present()) {
                         pick_beeper();
-                        return 0;
+                        return;
                 }
         }
     }
