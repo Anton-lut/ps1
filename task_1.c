@@ -5,8 +5,8 @@ void face_to_north();
 void face_to_south();
 void face_to_east();
 void face_to_west();
-void jump_right();
-void jump_left();
+int jump_right();
+int jump_left();
 
 int main() {
 	turn_on("task_1.kw");
@@ -20,7 +20,7 @@ int main() {
     return 0;
 }
 
-void jump_left() {
+int jump_left() {
     while (true) {
         face_to_north();
         step();
@@ -64,7 +64,7 @@ void jump_left() {
     }
 }
 
-void jump_right() {
+int jump_right() {
     while (true) {
         face_to_north();
         step();
@@ -72,7 +72,7 @@ void jump_right() {
                  pick_beeper();
                  break;
         }
-        while (left_is_blocked() && front_is_clear()) {
+        while (right_is_blocked() && front_is_clear()) {
                 step();
                 if (beepers_present()) {
                         pick_beeper();
@@ -85,7 +85,7 @@ void jump_right() {
                 pick_beeper();
                 break;
         }
-        while (left_is_blocked() && front_is_clear()) {
+        while (right_is_blocked() && front_is_clear()) {
                 step();
                 if (beepers_present()) {
                         pick_beeper();
@@ -98,7 +98,7 @@ void jump_right() {
                 pick_beeper();
                 break;
         }
-        while (left_is_blocked() && front_is_clear()) {
+        while (right_is_blocked() && front_is_clear()) {
                 step();
                 if (beepers_present()) {
                         pick_beeper();
