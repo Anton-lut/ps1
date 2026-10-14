@@ -10,7 +10,7 @@ void jump_left();
 void sstep();
 
 int main() {
-	turn_on("`task_1.kw");
+	turn_on("task_1.kw");
     
     if (beepers_present()) {
         pick_beeper();
@@ -60,7 +60,10 @@ void jump_left() {
                         pick_beeper();
                         return;
                 }
-        } 
+        }
+        if (facing_north() && front_is_blocked() && left_is_blocked()) {
+            return;
+        }
         face_to_south();
         sstep();
         if (beepers_present()) {
