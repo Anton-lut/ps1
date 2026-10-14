@@ -7,8 +7,6 @@ void face_to_east();
 void face_to_west();
 void jump_right();
 void jump_left();
-void go_right();
-void go_left();
 
 int main() {
 	turn_on("task_1.kw");
@@ -25,14 +23,43 @@ int main() {
 void jump_left() {
     while (true) {
         face_to_north();
-        go_left();
-        face_to_west();
-        go_left();
-        face_to_south();
-        go_left();
+        step();
         if (beepers_present()) {
-            pick_beeper();
-            break;
+                pick_beeper();
+                break;
+        }   
+        while (left_is_blocked() && front_is_clear()) {
+                step();
+                if (beepers_present()) {
+                        pick_beeper();
+                        return 0;
+                }             
+        }
+        face_to_west();
+        step();
+        if (beepers_present()) {
+                pick_beeper();
+                break;
+        } 
+        while (left_is_blocked() && front_is_clear()) {
+                step();
+                if (beepers_present()) {
+                        pick_beeper();
+                        return 0;
+                }
+        } 
+        face_to_south();
+        step();
+        if (beepers_present()) {
+                pick_beeper();
+                break;
+        }
+        while (left_is_blocked() && front_is_clear()) {
+                step();
+                if (beepers_present()) {
+                        pick_beeper();
+                        return 0;
+                }    
         }
     }
 }
@@ -40,30 +67,43 @@ void jump_left() {
 void jump_right() {
     while (true) {
         face_to_north();
-        go_right();
-        face_to_east();
-        go_right();
-        face_to_south();
-        go_right();
-        if (beepers_present()) {
-            pick_beeper();
-            break;
-        }
-    }
-}
-
-void go_left() {
-    step();
-    while (left_is_blocked() && front_is_clear()) {
-         step();
-    }
-}
-
-void go_right() {
-    if (front_is_clear()) {
         step();
-        while (right_is_blocked() && front_is_clear()) {
-            step();
+        if (beepers_present()) {
+                 pick_beeper();
+                 break;
+        }
+        while (left_is_blocked() && front_is_clear()) {
+                step();
+                if (beepers_present()) {
+                        pick_beeper();
+                        return 0;
+                }
+        }
+        face_to_east();
+        step();
+        if (beepers_present()) {
+                pick_beeper();
+                break;
+        }
+        while (left_is_blocked() && front_is_clear()) {
+                step();
+                if (beepers_present()) {
+                        pick_beeper();
+                        return 0;
+                }
+        }
+        face_to_south();
+        step();
+        if (beepers_present()) {
+                pick_beeper();
+                break;
+        }
+        while (left_is_blocked() && front_is_clear()) {
+                step();
+                if (beepers_present()) {
+                        pick_beeper();
+                        return 0;
+                }
         }
     }
 }
