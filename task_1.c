@@ -20,7 +20,7 @@ int main() {
         face_to_north();
         sstep();
         if (beepers_present()) {
-            pick_beepers();
+            pick_beeper();
             face_to_south();
             sstep();
             face_to_west();
@@ -32,6 +32,7 @@ int main() {
                 jump_right();
                 jump_left();
                 face_to_west();
+        }
     }
 
     turn_off();
