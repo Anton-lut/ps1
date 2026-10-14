@@ -30,6 +30,10 @@ int main() {
                 sstep();
                 put_beeper();
                 jump_right();
+                face_to_south();
+                while (front_is_clear()) {
+                    step();
+                }
                 jump_left();
                 face_to_west();
         }
