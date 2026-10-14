@@ -101,14 +101,6 @@ void jump_left() {
 
 void jump_right() {
     while (true) {
-        face_to_south();
-        if (front_is_blocked() && left_is_clear()) {
-            face_to_east();
-            while (front_is_clear()) {
-                step();
-            }
-            face_to_north();
-        }
         face_to_north();
         sstep();
         if (beepers_present()) {
