@@ -18,6 +18,7 @@ int main() {
         turn_on("task_3.kw");
 
         set_step_delay(100);
+        face_to_east();
         collect();
         face_to_south();
         while (front_is_clear()) {
