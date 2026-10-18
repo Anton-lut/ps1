@@ -43,7 +43,6 @@ void go_end() {
             put_beeper();
             sstep();
         }
-
     }
     face_to_south();
     step();
@@ -53,7 +52,7 @@ void go_end() {
     loop (2) {
         pick_beeper();
     }
-        face_to_north();
+    face_to_north();
 }
 
 void create_frame() {
@@ -64,14 +63,17 @@ void create_frame() {
     put_beeper();
     face_to_west();
     step();
-    while (no_beepers_present()) {
-        while (front_is_clear()) {
+    while (true) {
+        if (front_is_clear()) {
             if (no_beepers_present()) {
                 put_beeper();
             }
             sstep();
         }
-        if (no_beepers_present()) {
+        if (beepers_present()) {
+            break;
+        }
+        if (front_is_blocked() && right_is_blocked()) {
             turn_left();
         }
     }
@@ -192,6 +194,14 @@ void search_x_centre() {
         if (front_is_blocked() && left_is_blocked()) {
             face_to_west();
         }
+        else {
+            while (front_is_clear()) {
+                step();
+            }
+        }
+        if (front_is_blocked() && left_is_blocked()) {
+            face_to_west();
+        }
     }
     put_beeper();
     while (true) {
@@ -239,35 +249,27 @@ void search_x_centre() {
 }
 
 void face_to_north() {
-    set_step_delay(0);
     while (!facing_north()) {
         turn_left();
     }
-    set_step_delay(10);
 }
 
 void face_to_south() {
-    set_step_delay(0);
     while (!facing_south()) {
         turn_left();
     }
-    set_step_delay(10);
 }
 
 void face_to_east() {
-    set_step_delay(0);
     while (!facing_east()) {
         turn_left();
     }
-    set_step_delay(10);
 }
 
 void face_to_west() {
-    set_step_delay(0);
     while (!facing_west()) {
         turn_left();
     }
-    set_step_delay(10);
 }
 
 void sstep() {
