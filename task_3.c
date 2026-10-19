@@ -157,6 +157,9 @@ void place_to_max() {
                     sstep();
                 }
             }
+            else {
+                put_beeper();
+            }
     }
     else {
         put_beeper();
@@ -241,7 +244,14 @@ void collect() {
         if (beepers_present()) {
             pick_beeper();
             face_to_south();
-            step();
+            if (front_is_clear()) {
+                step();
+            }
+            else {
+                face_to_north();
+                step();
+                face_to_south();
+            }
         }
         if (no_beepers_present() && facing_east()) {
             step();
