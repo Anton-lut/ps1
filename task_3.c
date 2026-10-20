@@ -209,11 +209,23 @@ void check_max_line() {
         put_beeper();
     }
     face_to_north();
+    step();
     while (front_is_clear()) {
-        step();
         if (beepers_present()) {
-            break;
+            pick_beeper();
+            if (beepers_present()) {
+                break;
+            }
+            else {
+                put_beeper();
+                while (front_is_clear()) {
+                    put_beeper();
+                    step();
+                }
+                put_beeper();
+            }
         }
+        sstep();
     }
     if (front_is_blocked() && no_beepers_present()) {
         face_to_south();
@@ -244,9 +256,6 @@ void search_max_line() {
     face_to_south();
     while (true) {
         sstep();
-        if (no_beepers_present()) {
-            put_beeper();
-        }
         if (beepers_present()) {
             pick_beeper();
             if (beepers_present()) {
@@ -261,7 +270,11 @@ void search_max_line() {
             }
             else {
                 put_beeper();
+                put_beeper();
             }
+        }
+        else {
+            put_beeper();
         }
     }
     face_to_west();
