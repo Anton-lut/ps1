@@ -97,64 +97,53 @@ void spick_beeper() {
 void sort() {
     while (true) {
         face_to_south();
-        if (front_is_clear()) {
+        while (front_is_clear()) {
             step();
-        }
-        else {
-            break;
         }
         face_to_north();
         while (front_is_clear()) {
             if (beepers_present()) {
                 pick_beeper();
-                if (beepers_present()) {
-                    pick_beeper();
-                }
-                else {
+                if (no_beepers_present()) {
                     put_beeper();
                 }
-                put_beeper();
             }
             step();
         }
         if (beepers_present()) {
             pick_beeper();
+            if (no_beepers_present()) {
+                put_beeper();
+            }
+            sstep();
+            while (no_beepers_present()) {
+                step();
+            }
+            face_to_south();
+            while (beepers_in_bag()) {
+                put_beeper();
+                sstep();
+            }
+            face_to_north();
+            while (front_is_clear()) {
+                step();
+            }
+            face_to_east();
+            while (front_is_clear()) {
+                step();
+            }
+            face_to_west();
+            while (right_is_clear()) {
+                step();
+            }
+            pick_beeper();
             if (beepers_present()) {
-                pick_beeper();
+                put_beeper();
             }
             else {
                 put_beeper();
+                break;
             }
-            put_beeper();
-        }
-        sstep();
-        while (no_beepers_present()) {
-            step();
-        }
-        face_to_south();
-        while (beepers_in_bag()) {
-            put_beeper();
-            sstep();
-        }
-        face_to_north();
-        while (front_is_clear()) {
-            step();
-        }
-        face_to_east();
-        while (front_is_clear()) {
-            step();
-        }
-        face_to_west();
-        while (right_is_clear()) {
-            step();
-        }
-        pick_beeper();
-        if (beepers_present()) {
-            put_beeper();
-        }
-        else {
-            put_beeper();
-            break;
         }
     }
 }
