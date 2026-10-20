@@ -115,9 +115,13 @@ void sort() {
             if (no_beepers_present()) {
                 put_beeper();
             }
-            sstep();
-            while (no_beepers_present()) {
+            face_to_west();
+            step();
+            while (beepers_present() && front_is_clear()) {
                 step();
+                if (right_is_clear()) {
+                    step();
+                }
             }
             face_to_south();
             while (beepers_in_bag()) {
