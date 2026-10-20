@@ -123,6 +123,9 @@ void sort() {
                     step();
                 }
             }
+            while (right_is_clear()) {
+                step();
+            }
             face_to_south();
             while (beepers_in_bag()) {
                 put_beeper();
