@@ -1,5 +1,6 @@
 #include <superkarel.h>
 
+void check_max_line();
 void spick_beeper();
 void sstep();
 void turn_right();
@@ -14,6 +15,7 @@ void place_to_max();
 void finish();
 void collect();
 void sort();
+void put_in_one();
 
 int main() {
         turn_on("task_3.kw");
@@ -23,19 +25,40 @@ int main() {
         collect();
         face_to_south();
         while (front_is_clear()) {
+            if (front_is_clear()) {
+                step();
+            }
+            else {
+                break;
+            }
+        }
+        face_to_west();
+        search_beeper1();
+        face_to_north();
+        while (front_is_clear()) {
+            step();
+        }
+        face_to_east();
+        while (front_is_clear()) {
+            step();
+        }
+        face_to_west();
+        while (right_is_clear()) {
+            step();
+        }
+        loop (2) {
+            put_beeper();
+        }
+        face_to_south();
+        while (front_is_clear()) {
             step();
         }
         face_to_west();
         search_beeper1();
         search_max_line();
-        search_beeper1();
+        search_beeper2();
         place_to_max();
-        while (beepers_in_bag()) {
-            face_to_west();
-            sstep();
-            search_beeper2();
-            place_to_max();
-        }
+        put_in_one();
         while (true) {
             sort();
             pick_beeper();
@@ -55,6 +78,32 @@ int main() {
         return 0;
 }
 
+void put_in_one() {
+    while (true) {
+        search_beeper2();
+        place_to_max();
+        while (no_beepers_present()) {
+            if (front_is_clear()) {
+                step();
+            }
+            else {
+                face_to_east();
+                while (no_beepers_present()) {
+                    step();
+                }
+                face_to_north();
+                if (front_is_clear()) {
+                    step();
+                }
+                else {
+                    return;
+                }
+                face_to_west();
+                step();
+            }
+        }
+    }
+}
 void spick_beeper() {
     pick_beeper();
     if (beepers_present()) {
@@ -65,12 +114,17 @@ void spick_beeper() {
 void sort() {
     face_to_south();
     while (beepers_present()) {
-        sstep();
+        if (front_is_clear()) {
+            step();
+        }
+        else {
+            break;
+        }
     }
     face_to_north();
     sstep();
     while(true) {
-        pick_beeper();
+        pick_beeper();        
         if (no_beepers_present()) {
             put_beeper();
             step();
@@ -84,7 +138,6 @@ void sort() {
         }
     }
     face_to_west();
-    step();
     while (front_is_clear()) {
         step();
         if (right_is_blocked() && no_beepers_present()) {
@@ -107,32 +160,35 @@ void sort() {
 }
 
 void search_beeper2() {
+        face_to_south();
+        while (front_is_clear()) {
+            step();
+        }
+        face_to_east();
+        while (front_is_clear()) {
+            step();
+        }
         face_to_west();
-        step();
+        while (no_beepers_present()) {
+            step();
+        }
         while (true) {
-            if (beepers_present()) {
-                spick_beeper();
-                if (beepers_present()) {
-                    face_to_south();
-                    sstep();
-                }
-                if (no_beepers_present()) {
-                      put_beeper();
-                      return;
-                }
+            step();
+            while (front_is_clear() && no_beepers_present()) {
+                step();
             }
-            if (front_is_blocked()) {
-                face_to_south();
-                sstep();
-                if (right_is_blocked()) {
-                    face_to_east();
-                }
-                if (left_is_blocked()) {
-                    face_to_west();
+            if (beepers_present()) {
+                return;
+            }
+            else {
+                face_to_east();
+                while (no_beepers_present()) {
                     step();
                 }
+                face_to_north();
+                step();
+                face_to_west();
             }
-            sstep();
         }
 }
 
@@ -140,29 +196,7 @@ void place_to_max() {
     pick_beeper();
     face_to_east();
     while (no_beepers_present()) {
-        sstep();
-    }
-    pick_beeper();
-    if (no_beepers_present()) {
-        put_beeper();
-        sstep();
-        while (no_beepers_present()) {
-            sstep();
-        }
-            pick_beeper();
-            if (no_beepers_present()) {
-                put_beeper();
-                sstep();
-                while (no_beepers_present()) {
-                    sstep();
-                }
-            }
-            else {
-                put_beeper();
-            }
-    }
-    else {
-        put_beeper();
+        step();
     }
     face_to_north();
     while (front_is_clear()) {
@@ -172,16 +206,7 @@ void place_to_max() {
     put_beeper();
 }
 
-void search_max_line() {
-    face_to_east();
-    put_beeper();
-    step();
-    while (front_is_clear()) {
-        if (no_beepers_present()) {
-            put_beeper();
-            step();
-        }
-    }
+void check_max_line() {
     loop (3) {
         put_beeper();
     }
@@ -190,18 +215,37 @@ void search_max_line() {
         step();
         if (beepers_present()) {
             break;
-        } 
-    }
-    put_beeper();
-    while (front_is_clear()) {
-        step();
-        loop (2) {
-                put_beeper();
         }
     }
+    if (front_is_blocked() && no_beepers_present()) {
+        face_to_south();
+        step();
+        while (no_beepers_present()) {
+            sstep();
+        }
+        while (beepers_present()) {
+            pick_beeper();
+        }
+        face_to_west();
+        step();
+        check_max_line();
+    }
+}
+
+void search_max_line() {
+    face_to_east();
+    put_beeper();
+    step();
+    while (front_is_clear()) {
+        if (no_beepers_present()) {
+            step();
+        }
+    }
+    check_max_line();
+    pick_beeper();
     face_to_south();
     while (true) {
-        step();
+        sstep();
         if (no_beepers_present()) {
             put_beeper();
         }
@@ -249,19 +293,27 @@ void collect() {
             }
             else {
                 face_to_north();
-                step();
-                face_to_south();
+                put_beeper();
+                while (front_is_clear()) {
+                    step();
+                }
+                face_to_east();
             }
         }
         if (no_beepers_present() && facing_east()) {
-            step();
+            if (front_is_clear()) {
+                step();
+            }
+            if (front_is_blocked()) {
+                break;
+            }
             if (no_beepers_present() && front_is_blocked() && left_is_blocked()) {
                 return;
             }
         }
         if (no_beepers_present() && facing_south()) {
             face_to_north();
-            step();
+            sstep();
             put_beeper();
             if (front_is_clear() && right_is_blocked()) {
                 return;
@@ -271,7 +323,7 @@ void collect() {
                         step();
                 }
                 face_to_east();
-                step();
+                sstep();
             }
             face_to_east();
         }
@@ -304,43 +356,33 @@ void search_beeper1() {
 }
 
 void turn_right() {
-    set_step_delay(0);
     loop (3) {
         turn_left();
     }
-    set_step_delay(100);
 }
 
 void face_to_north( ) {
-    set_step_delay(0);
     while (!facing_north()) {
         turn_left();
     }
-    set_step_delay(100);
 }
 
 void face_to_south() {
-    set_step_delay(0);
     while (!facing_south()) {
         turn_left();
     }
-    set_step_delay(100);
 }
 
 void face_to_east() {
-    set_step_delay(0);
     while (!facing_east()) {
         turn_left();
     }
-    set_step_delay(100);
 }
 
 void face_to_west() {
-    set_step_delay(0);
     while (!facing_west()) {
         turn_left();
     }
-    set_step_delay(100);
 }
 
 void sstep() {
