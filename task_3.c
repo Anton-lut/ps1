@@ -20,7 +20,7 @@ void put_in_one();
 int main() {
         turn_on("task_3.kw");
 
-        set_step_delay(100);
+        set_step_delay(10);
         face_to_east();
         collect();
         face_to_south();
@@ -125,6 +125,9 @@ void sort() {
             }
             while (right_is_clear()) {
                 step();
+                while (beepers_present()) {
+                    step();
+                }
             }
             face_to_south();
             while (beepers_in_bag()) {
