@@ -9,7 +9,7 @@ void final_check();
 void one_room_check();
 
 int main() {
-    turn_on("task7_2.kw");
+    turn_on("task_7.kw");
 
     set_step_delay(200);
     mark_rooms();
